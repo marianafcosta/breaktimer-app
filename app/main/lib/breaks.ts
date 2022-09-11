@@ -12,6 +12,7 @@ import { createBreakWindows } from "./windows";
 let powerMonitor: PowerMonitor;
 let breakTime: BreakTime = null;
 let havingBreak = false;
+let breaksSinceLastExtended = -1;
 let postponedCount = 0;
 let idleStart: Date | null = null;
 let lockStart: Date | null = null;
@@ -23,7 +24,10 @@ export function getBreakTime(): BreakTime {
 
 export function getBreakLength(): Date {
   const settings: Settings = getSettings();
-  return settings.breakLength;
+  return breaksSinceLastExtended >= settings.extendedBreakInterval &&
+    settings.extendedBreaksEnabled
+    ? settings.extendedBreakLength
+    : settings.breakLength;
 }
 
 function zeroPad(n: number) {
@@ -80,6 +84,11 @@ function createIdleNotification() {
 
 export function createBreak(isPostpone = false): void {
   const settings: Settings = getSettings();
+
+  if (breaksSinceLastExtended >= settings.extendedBreakInterval) {
+    breaksSinceLastExtended = -1;
+  }
+  breaksSinceLastExtended++;
 
   if (idleStart) {
     createIdleNotification();
