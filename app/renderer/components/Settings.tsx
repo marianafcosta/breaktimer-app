@@ -256,6 +256,7 @@ export default function SettingsEl() {
                       !settingsDraft.breaksEnabled ||
                       !settingsDraft.extendedBreaksEnabled
                     }
+                    min={1}
                     placeholder="Enter a number..."
                     onValueChange={(v: number) =>
                       handleNumericChange("extendedBreakInterval", v)
