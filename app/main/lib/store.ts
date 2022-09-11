@@ -35,6 +35,9 @@ const defaultSettings: Settings = {
   endBreakEnabled: true,
   skipBreakEnabled: false,
   postponeBreakEnabled: true,
+  extendedBreaksEnabled: false,
+  extendedBreakInterval: 2,
+  extendedBreakLength: new Date(0, 0, 0, 0, 20),
 };
 
 const store = new Store<{

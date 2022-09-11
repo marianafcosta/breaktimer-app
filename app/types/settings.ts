@@ -35,4 +35,7 @@ export interface Settings {
   endBreakEnabled: boolean;
   skipBreakEnabled: boolean;
   postponeBreakEnabled: boolean;
+  extendedBreaksEnabled: boolean;
+  extendedBreakInterval: number;
+  extendedBreakLength: Date;
 }

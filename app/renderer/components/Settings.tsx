@@ -9,6 +9,7 @@ import {
   Intent,
   Button,
   Slider,
+  NumericInput,
 } from "@blueprintjs/core";
 import { TimePicker, TimePrecision } from "@blueprintjs/datetime";
 import { Settings, NotificationType } from "../../types/settings";
@@ -57,6 +58,13 @@ export default function SettingsEl() {
   ): void => {
     const postponeLimit = Number(e.target.value);
     setSettingsDraft({ ...settingsDraft, postponeLimit });
+  };
+
+  const handleNumericChange = (field: string, value: number): void => {
+    setSettingsDraft({
+      ...settingsDraft,
+      [field]: value,
+    });
   };
 
   const handleTextChange = (
@@ -219,6 +227,41 @@ export default function SettingsEl() {
                   onChange={handleSwitchChange.bind(null, "endBreakEnabled")}
                   disabled={!settingsDraft.breaksEnabled}
                 />
+                <Switch
+                  label="Allow extended breaks"
+                  checked={settingsDraft.extendedBreaksEnabled}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleSwitchChange("extendedBreaksEnabled", e)
+                  }
+                  disabled={!settingsDraft.breaksEnabled}
+                />
+                <FormGroup label="Extended break length">
+                  <TimePicker
+                    onChange={(e: Date) =>
+                      handleDateChange("extendedBreakLength", e)
+                    }
+                    value={new Date(settingsDraft.extendedBreakLength)}
+                    selectAllOnFocus
+                    precision={TimePrecision.SECOND}
+                    disabled={
+                      !settingsDraft.breaksEnabled ||
+                      !settingsDraft.extendedBreaksEnabled
+                    }
+                  />
+                </FormGroup>
+                <FormGroup label="Number of regular breaks before extended break">
+                  <NumericInput
+                    value={settingsDraft.extendedBreakInterval}
+                    disabled={
+                      !settingsDraft.breaksEnabled ||
+                      !settingsDraft.extendedBreaksEnabled
+                    }
+                    placeholder="Enter a number..."
+                    onValueChange={(v: number) =>
+                      handleNumericChange("extendedBreakInterval", v)
+                    }
+                  />
+                </FormGroup>
               </React.Fragment>
             }
           />
