@@ -11,6 +11,7 @@ import {
   checkIdle,
   startBreakNow,
   createBreak,
+  resetExtendedBreakInterval,
 } from "./breaks";
 
 let tray: Tray;
@@ -114,6 +115,11 @@ export function buildTray(): void {
       label: "Restart break period",
       visible: breakTime !== null && inWorkingHours,
       click: createBreak.bind(null, false),
+    },
+    {
+      label: "Restart extended break interval",
+      visible: breakTime !== null && inWorkingHours,
+      click: resetExtendedBreakInterval,
     },
     { type: "separator" },
     { label: "Settings...", click: createSettingsWindow },

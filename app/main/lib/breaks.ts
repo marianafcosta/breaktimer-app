@@ -127,6 +127,10 @@ export function postponeBreak(): void {
   createBreak(true);
 }
 
+export function resetExtendedBreakInterval(): void {
+  breaksSinceLastExtended = 0;
+}
+
 function doBreak(): void {
   havingBreak = true;
 
