@@ -228,12 +228,15 @@ export default function SettingsEl() {
                   disabled={!settingsDraft.breaksEnabled}
                 />
                 <Switch
-                  label="Allow extended breaks"
+                  label="Enable extended breaks"
                   checked={settingsDraft.extendedBreaksEnabled}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleSwitchChange("extendedBreaksEnabled", e)
                   }
-                  disabled={!settingsDraft.breaksEnabled}
+                  disabled={
+                    !settingsDraft.breaksEnabled ||
+                    settingsDraft.notificationType !== NotificationType.Popup
+                  }
                 />
                 <FormGroup label="Extended break length">
                   <TimePicker
@@ -245,7 +248,8 @@ export default function SettingsEl() {
                     precision={TimePrecision.SECOND}
                     disabled={
                       !settingsDraft.breaksEnabled ||
-                      !settingsDraft.extendedBreaksEnabled
+                      !settingsDraft.extendedBreaksEnabled ||
+                      settingsDraft.notificationType !== NotificationType.Popup
                     }
                   />
                 </FormGroup>
@@ -254,7 +258,8 @@ export default function SettingsEl() {
                     value={settingsDraft.extendedBreakInterval}
                     disabled={
                       !settingsDraft.breaksEnabled ||
-                      !settingsDraft.extendedBreaksEnabled
+                      !settingsDraft.extendedBreaksEnabled ||
+                      settingsDraft.notificationType !== NotificationType.Popup
                     }
                     min={1}
                     placeholder="Enter a number..."
